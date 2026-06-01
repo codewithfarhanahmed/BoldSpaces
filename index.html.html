@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bold Spaces by Momina Qadri</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --gold-dark: #A07830;
+    --white: #FFFFFF;
+    --off-white: #FAF8F5;
+    --warm-gray: #F2EDE6;
+    --text-dark: #1A1714;
+    --text-mid: #5C5043;
+    --text-light: #9E8E7E;
+    --border: #E8DDD0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ===== LOADER ===== */
+  #loader {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 700; letter-spacing: 6px;
+    color: var(--text-dark);
+    animation: fadeInUp 0.8s ease forwards;
+  }
+  .loader-logo span { color: var(--gold); }
+  .loader-bar {
+    width: 160px; height: 2px; background: var(--border);
+    position: relative; overflow: hidden;
+  }
+  .loader-bar::after {
+    content: ''; position: absolute; left: -100%; top: 0;
+    width: 100%; height: 100%; background: var(--gold);
+    animation: loadBar 1.8s ease forwards;
+  }
+  @keyframes loadBar { to { left: 0; } }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 60px;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--text-dark); text-decoration: none;
+    line-height: 1.1;
+  }
+  .nav-logo small {
+    display: block; font-size: 0.6rem; font-family: 'Montserrat', sans-serif;
+    font-weight: 400; letter-spacing: 3px; color: var(--gold); text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--text-mid); text-decoration: none;
+    position: relative; transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold); transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--text-dark); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta {
+    background: var(--gold); color: var(--white);
+    padding: 11px 28px; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+    border: none; cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 90px;
+    position: relative; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 60px 80px 80px;
+    animation: fadeInLeft 1s ease 0.3s both;
+  }
+  .hero-tag {
+    font-size: 0.62rem; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .hero-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.2rem); font-weight: 300; line-height: 1.05;
+    color: var(--text-dark); margin-bottom: 28px;
+  }
+  .hero-h1 em { font-style: italic; color: var(--gold); }
+  .hero-p {
+    font-size: 0.82rem; font-weight: 300; line-height: 2;
+    color: var(--text-light); max-width: 420px; margin-bottom: 44px;
+  }
+  .hero-btns { display: flex; gap: 18px; align-items: center; }
+  .btn-primary {
+    background: var(--text-dark); color: var(--white);
+    padding: 16px 40px; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none;
+    transition: background 0.3s, transform 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+  .btn-secondary {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-mid); text-decoration: none;
+    border-bottom: 1px solid var(--gold); padding-bottom: 3px;
+    transition: color 0.3s;
+  }
+  .btn-secondary:hover { color: var(--gold); }
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 60px;
+    padding-top: 40px; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem; font-weight: 600; color: var(--text-dark); line-height: 1;
+  }
+  .stat-num span { color: var(--gold); }
+  .stat-label {
+    font-size: 0.6rem; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-light); margin-top: 6px;
+  }
+  .hero-right {
+    position: relative; overflow: hidden;
+    animation: fadeInRight 1s ease 0.3s both;
+  }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 8s ease;
+  }
+  .hero-right:hover img { transform: scale(1.04); }
+  .hero-badge {
+    position: absolute; bottom: 50px; left: -28px;
+    background: var(--white); padding: 24px 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    animation: float 4s ease-in-out infinite;
+  }
+  .badge-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600; color: var(--text-dark);
+  }
+  .badge-sub {
+    font-size: 0.6rem; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold); margin-top: 4px;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ===== MARQUEE ===== */
+  .marquee-wrap {
+    background: var(--text-dark); padding: 18px 0; overflow: hidden;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300; font-style: italic;
+    color: var(--off-white); padding: 0 40px; letter-spacing: 2px;
+  }
+  .marquee-dot {
+    color: var(--gold); font-size: 1.4rem; line-height: 1.1;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header {
+    text-align: center; margin-bottom: 70px;
+  }
+  .s-tag {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .s-tag::before, .s-tag::after { content: ''; width: 30px; height: 1px; background: var(--gold); }
+  .s-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300; color: var(--text-dark);
+    line-height: 1.15;
+  }
+  .s-title em { font-style: italic; color: var(--gold); }
+  .s-sub {
+    font-size: 0.78rem; font-weight: 300; color: var(--text-light);
+    max-width: 480px; margin: 16px auto 0; line-height: 1.9;
+  }
+
+  /* ===== COLLECTIONS ===== */
+  .collections { padding: 110px 80px; background: var(--white); }
+  .collection-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .collection-card {
+    position: relative; overflow: hidden; cursor: pointer;
+    aspect-ratio: 3/4;
+  }
+  .collection-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+  .collection-card:hover img { transform: scale(1.08); }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,15,10,0.75) 0%, transparent 55%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 32px;
+    transition: background 0.4s;
+  }
+  .collection-card:hover .card-overlay {
+    background: linear-gradient(to top, rgba(20,15,10,0.85) 0%, rgba(20,15,10,0.15) 60%);
+  }
+  .card-label {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 400; color: var(--white); line-height: 1.2;
+  }
+  .card-cta {
+    margin-top: 16px; font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .collection-card:hover .card-cta { opacity: 1; transform: translateY(0); }
+
+  /* ===== FEATURED PRODUCTS ===== */
+  .products { padding: 110px 80px; background: var(--off-white); }
+  .filter-tabs {
+    display: flex; gap: 0; justify-content: center;
+    margin-bottom: 60px; border: 1px solid var(--border);
+    width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .filter-tab {
+    padding: 13px 34px; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; border: none;
+    background: transparent; cursor: pointer; color: var(--text-light);
+    transition: all 0.3s; border-right: 1px solid var(--border);
+  }
+  .filter-tab:last-child { border-right: none; }
+  .filter-tab.active {
+    background: var(--text-dark); color: var(--white);
+  }
+  .filter-tab:hover:not(.active) { background: var(--warm-gray); color: var(--text-dark); }
+  .product-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+  }
+  .product-card {
+    background: var(--white);
+    transition: transform 0.4s, box-shadow 0.4s;
+    position: relative;
+  }
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+  }
+  .product-img-wrap {
+    position: relative; overflow: hidden; aspect-ratio: 1/1;
+  }
+  .product-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .product-card:hover .product-img-wrap img { transform: scale(1.06); }
+  .product-badge {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--gold); color: var(--white);
+    padding: 5px 12px; font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .product-quick {
+    position: absolute; bottom: -50px; left: 0; right: 0;
+    background: rgba(26,23,20,0.92); color: var(--white);
+    padding: 14px; text-align: center;
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer;
+    transition: bottom 0.4s ease;
+  }
+  .product-card:hover .product-quick { bottom: 0; }
+  .product-info { padding: 22px 20px 24px; }
+  .product-cat {
+    font-size: 0.55rem; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+  }
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-weight: 600; color: var(--text-dark);
+    margin-bottom: 8px; line-height: 1.3;
+  }
+  .product-desc {
+    font-size: 0.7rem; color: var(--text-light); line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-weight: 600; color: var(--text-dark);
+  }
+  .price-note {
+    font-size: 0.6rem; color: var(--text-light); font-family: 'Montserrat', sans-serif;
+    font-weight: 400; letter-spacing: 1px; margin-left: 6px;
+  }
+
+  /* ===== PROCESS ===== */
+  .process { padding: 110px 80px; background: var(--white); }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+  }
+  .process-step {
+    padding: 50px 36px; border: 1px solid var(--border);
+    position: relative; transition: background 0.4s, transform 0.3s;
+    cursor: default;
+  }
+  .process-step:hover {
+    background: var(--text-dark); transform: translateY(-6px);
+  }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 300; color: var(--border);
+    line-height: 1; margin-bottom: 20px;
+    transition: color 0.4s;
+  }
+  .process-step:hover .step-num { color: var(--gold-dark); }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600; color: var(--text-dark);
+    margin-bottom: 14px; transition: color 0.4s;
+  }
+  .process-step:hover .step-title { color: var(--white); }
+  .step-desc {
+    font-size: 0.72rem; line-height: 1.85; color: var(--text-light);
+    transition: color 0.4s;
+  }
+  .process-step:hover .step-desc { color: rgba(255,255,255,0.65); }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials { padding: 110px 80px; background: var(--warm-gray); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .testi-card {
+    background: var(--white); padding: 44px 36px;
+    position: relative; transition: transform 0.4s, box-shadow 0.4s;
+  }
+  .testi-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.08);
+  }
+  .testi-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; color: var(--gold); line-height: 0.6;
+    margin-bottom: 22px; display: block;
+  }
+  .testi-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300; font-style: italic;
+    color: var(--text-dark); line-height: 1.75; margin-bottom: 28px;
+  }
+  .testi-author {
+    display: flex; align-items: center; gap: 16px;
+    border-top: 1px solid var(--border); padding-top: 22px;
+  }
+  .author-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--gold);
+  }
+  .author-name {
+    font-size: 0.72rem; font-weight: 600; color: var(--text-dark);
+    letter-spacing: 1px;
+  }
+  .author-role {
+    font-size: 0.6rem; color: var(--text-light); margin-top: 3px;
+    letter-spacing: 1px;
+  }
+  .stars { color: var(--gold); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 4px; }
+
+  /* ===== CTA BANNER ===== */
+  .cta-banner {
+    position: relative; overflow: hidden;
+    min-height: 500px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .cta-banner img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .cta-overlay {
+    position: absolute; inset: 0;
+    background: rgba(20,15,8,0.72);
+  }
+  .cta-content {
+    position: relative; z-index: 2; padding: 80px 40px;
+    animation: none;
+  }
+  .cta-tag {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 22px;
+  }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 300;
+    color: var(--white); line-height: 1.15; max-width: 660px;
+    margin: 0 auto 36px;
+  }
+  .cta-title em { font-style: italic; color: var(--gold-light); }
+  .cta-btn {
+    background: var(--gold); color: var(--white);
+    padding: 18px 52px; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .cta-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--text-dark); padding: 80px 80px 40px;
+    color: rgba(255,255,255,0.55);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 700; letter-spacing: 5px;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .footer-brand-by {
+    font-size: 0.58rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 22px;
+  }
+  .footer-desc {
+    font-size: 0.72rem; line-height: 1.9; max-width: 280px;
+  }
+  .footer-col-title {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--white); margin-bottom: 24px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links a {
+    font-size: 0.72rem; color: rgba(255,255,255,0.5); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 36px; }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.65rem; }
+  .footer-gold { color: var(--gold); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* Gold line accent */
+  .gold-line {
+    width: 48px; height: 2px; background: var(--gold); margin: 24px auto 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">BOLD <span>SPACES</span></div>
+  <div style="font-size:0.55rem;letter-spacing:3px;color:#9E8E7E;font-family:'Montserrat',sans-serif;margin-top:-14px;">BY MOMINA QADRI</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    Bold Spaces
+    <small>by Momina Qadri</small>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#process">Our Process</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Consultation</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Custom Furniture Studio</div>
+    <h1 class="hero-h1">
+      Spaces Crafted<br>With <em>Purpose</em><br>& Character
+    </h1>
+    <p class="hero-p">
+      Every piece at Bold Spaces is handcrafted exclusively to your vision — whether designing a magical room for your child or a refined sanctuary for yourself.
+    </p>
+    <div class="hero-btns">
+      <a href="#collections" class="btn-primary">Explore Collections</a>
+      <a href="#process" class="btn-secondary">How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">500<span>+</span></div>
+        <div class="stat-label">Pieces Crafted</div>
+      </div>
+      <div>
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Customised</div>
+      </div>
+      <div>
+        <div class="stat-num">8<span>yrs</span></div>
+        <div class="stat-label">Of Excellence</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&auto=format&fit=crop&q=80" alt="Luxury Custom Sofa"/>
+    <div class="hero-badge">
+      <div class="badge-title">Bespoke Only</div>
+      <div class="badge-sub">Every piece is one-of-a-kind</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Kids Rooms</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Adult Spaces</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Custom Beds</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Bespoke Wardrobes</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Study Setups</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Dining Tables</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Luxury Sofas</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Kids Rooms</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Adult Spaces</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Custom Beds</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Bespoke Wardrobes</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Study Setups</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Dining Tables</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Luxury Sofas</span>
+    <span class="marquee-dot">·</span>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<section class="collections" id="collections">
+  <div class="section-header reveal">
+    <div class="s-tag">Our Collections</div>
+    <h2 class="s-title">Designed for Every <em>Stage of Life</em></h2>
+    <p class="s-sub">From whimsical kids' rooms to sophisticated adult retreats — every piece is a reflection of who you are.</p>
+  </div>
+  <div class="collection-grid">
+    <div class="collection-card reveal reveal-delay-1">
+      <img src="https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=700&auto=format&fit=crop&q=80" alt="Kids Collection"/>
+      <div class="card-overlay">
+        <div class="card-label">For Children</div>
+        <div class="card-title">Kids' Dream Rooms</div>
+        <div class="card-cta">Explore Collection →</div>
+      </div>
+    </div>
+    <div class="collection-card reveal reveal-delay-2">
+      <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=700&auto=format&fit=crop&q=80" alt="Adults Collection"/>
+      <div class="card-overlay">
+        <div class="card-label">For Adults</div>
+        <div class="card-title">Refined Living Spaces</div>
+        <div class="card-cta">Explore Collection →</div>
+      </div>
+    </div>
+    <div class="collection-card reveal reveal-delay-3">
+      <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=700&auto=format&fit=crop&q=80" alt="Bespoke Dining"/>
+      <div class="card-overlay">
+        <div class="card-label">Signature Pieces</div>
+        <div class="card-title">Bespoke Dining</div>
+        <div class="card-cta">Explore Collection →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="section-header reveal">
+    <div class="s-tag">Featured Products</div>
+    <h2 class="s-title">Crafted With <em>Intention</em></h2>
+    <p class="s-sub">Each product is made-to-order. No two pieces are ever the same — yours will be as unique as your story.</p>
+  </div>
+  <div class="filter-tabs reveal">
+    <button class="filter-tab active" onclick="filterProducts('all',this)">All Pieces</button>
+    <button class="filter-tab" onclick="filterProducts('kids',this)">Kids</button>
+    <button class="filter-tab" onclick="filterProducts('adult',this)">Adults</button>
+    <button class="filter-tab" onclick="filterProducts('signature',this)">Signature</button>
+  </div>
+  <div class="product-grid" id="productGrid">
+
+    <div class="product-card reveal reveal-delay-1" data-cat="kids">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=500&auto=format&fit=crop&q=80" alt="Kids Loft Bed"/>
+        <div class="product-badge">Kids</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Children's Bedroom</div>
+        <div class="product-name">Adventure Loft Bed</div>
+        <div class="product-desc">A custom loft with integrated slide, storage and reading nook — built for little dreamers.</div>
+        <div class="product-price">From PKR 85,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2" data-cat="adult">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop&q=80" alt="Luxury Sofa"/>
+        <div class="product-badge">Adults</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Living Room</div>
+        <div class="product-name">Heritage Curved Sofa</div>
+        <div class="product-desc">Upholstered in your choice of fabric, with solid walnut legs and custom dimensions to fit your space.</div>
+        <div class="product-price">From PKR 220,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-3" data-cat="kids">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1577083552431-6e5fd01988ec?w=500&auto=format&fit=crop&q=80" alt="Kids Study Desk"/>
+        <div class="product-badge">Kids</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Study & Learning</div>
+        <div class="product-name">Scholar's Study Corner</div>
+        <div class="product-desc">Ergonomic desk with height-adjustable chair, shelving and secret cubby compartments.</div>
+        <div class="product-price">From PKR 55,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-4" data-cat="adult">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1615873968403-89e068629265?w=500&auto=format&fit=crop&q=80" alt="Dining Table"/>
+        <div class="product-badge">Adults</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Dining Room</div>
+        <div class="product-name">Walnut Slab Dining Table</div>
+        <div class="product-desc">Live-edge solid walnut slab on custom steel base — a centrepiece that will last generations.</div>
+        <div class="product-price">From PKR 180,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-1" data-cat="signature">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500&auto=format&fit=crop&q=80" alt="Platform Bed"/>
+        <div class="product-badge">Signature</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Master Bedroom</div>
+        <div class="product-name">Platform Upholstered Bed</div>
+        <div class="product-desc">Low-profile platform with tufted headboard, ambient lighting and under-bed storage drawers.</div>
+        <div class="product-price">From PKR 145,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2" data-cat="kids">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=500&auto=format&fit=crop&q=80" alt="Wardrobe"/>
+        <div class="product-badge">Kids</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Storage</div>
+        <div class="product-name">Fairytale Wardrobe</div>
+        <div class="product-desc">Custom built-in wardrobe with themed panels, hanging rails, drawers and shoe rack — in any colour.</div>
+        <div class="product-price">From PKR 70,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-3" data-cat="signature">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500&auto=format&fit=crop&q=80" alt="Bookshelf"/>
+        <div class="product-badge">Signature</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Living / Study</div>
+        <div class="product-name">Arch Bookcase Wall</div>
+        <div class="product-desc">Floor-to-ceiling arched shelving unit that transforms any wall into a statement library.</div>
+        <div class="product-price">From PKR 95,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-4" data-cat="adult">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&auto=format&fit=crop&q=80" alt="Console Table"/>
+        <div class="product-badge">Adults</div>
+        <div class="product-quick">Request Custom Order</div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Entryway & Hallway</div>
+        <div class="product-name">Marble Console Table</div>
+        <div class="product-desc">Handcrafted console with Italian marble top and brass inlay legs — elegance at the entrance.</div>
+        <div class="product-price">From PKR 110,000 <span class="price-note">custom</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-header reveal">
+    <div class="s-tag">How It Works</div>
+    <h2 class="s-title">Your Vision, <em>Our Craft</em></h2>
+    <p class="s-sub">A seamless four-step journey from concept to the perfect finished piece in your home.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-num">01</div>
+      <div class="step-title">Consultation</div>
+      <div class="step-desc">We begin with a one-on-one design consultation — in person or virtual — to understand your space, taste, and requirements.</div>
+    </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-num">02</div>
+      <div class="step-title">Design & Quote</div>
+      <div class="step-desc">Our team creates detailed 3D renders and a transparent itemised quote. You approve before a single nail is hammered.</div>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-num">03</div>
+      <div class="step-title">Craftsmanship</div>
+      <div class="step-desc">Skilled artisans handcraft your piece using premium materials. You receive progress updates throughout the build.</div>
+    </div>
+    <div class="process-step reveal reveal-delay-4">
+      <div class="step-num">04</div>
+      <div class="step-title">Delivery & Setup</div>
+      <div class="step-desc">White-glove delivery, professional installation, and a final walkthrough to ensure every detail is perfect.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-header reveal">
+    <div class="s-tag">Client Stories</div>
+    <h2 class="s-title">What Our <em>Clients</em> Say</h2>
+    <div class="gold-line"></div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal reveal-delay-1">
+      <span class="testi-quote">"</span>
+      <div class="stars">★ ★ ★ ★ ★</div>
+      <div class="testi-text">Momina and her team created a magical bedroom for my daughter. Every single detail was attended to — from the colour of the handles to the angle of the shelves. We are absolutely in love.</div>
+      <div class="testi-author">
+        <img class="author-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80" alt="Sarah"/>
+        <div>
+          <div class="stars" style="font-size:0.55rem;letter-spacing:3px;color:var(--gold)"></div>
+          <div class="author-name">Aisha R.</div>
+          <div class="author-role">Lahore — Kids' Bedroom</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-2">
+      <span class="testi-quote">"</span>
+      <div class="stars">★ ★ ★ ★ ★</div>
+      <div class="testi-text">Our dining table is the most commented piece in our home. Guests always ask where it is from. Bold Spaces delivered beyond our expectations — on time, on budget, and breathtaking.</div>
+      <div class="testi-author">
+        <img class="author-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Omar"/>
+        <div>
+          <div class="author-name">Omar & Nadia K.</div>
+          <div class="author-role">Islamabad — Dining Room</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-3">
+      <span class="testi-quote">"</span>
+      <div class="stars">★ ★ ★ ★ ★</div>
+      <div class="testi-text">The whole process was smooth, professional and enjoyable. Momina has an extraordinary eye for design and the craftspeople she works with are true artists. Cannot recommend enough.</div>
+      <div class="testi-author">
+        <img class="author-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80" alt="Fatima"/>
+        <div>
+          <div class="author-name">Fatima S.</div>
+          <div class="author-role">Rawalpindi — Full Home</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1400&auto=format&fit=crop&q=80" alt="Workshop"/>
+  <div class="cta-overlay"></div>
+  <div class="cta-content reveal">
+    <div class="cta-tag">Begin Your Journey</div>
+    <h2 class="cta-title">Ready to Create a Space That Is <em>Entirely Yours?</em></h2>
+    <a href="#contact" class="cta-btn">Book Your Free Consultation</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding:110px 80px;background:var(--off-white);">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
+    <div class="reveal">
+      <div class="s-tag" style="justify-content:flex-start;">Contact Us</div>
+      <h2 class="s-title" style="text-align:left;">Let's Start a <em>Conversation</em></h2>
+      <p style="font-size:0.78rem;color:var(--text-light);line-height:2;margin:20px 0 36px;">
+        Whether you have a clear vision or just a feeling — we are here to listen, guide, and create something extraordinary for your home.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div>
+          <div style="font-size:0.58rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Location</div>
+          <div style="font-size:0.78rem;color:var(--text-mid);">Rawalpindi, Pakistan</div>
+        </div>
+        <div>
+          <div style="font-size:0.58rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Instagram</div>
+          <div style="font-size:0.78rem;color:var(--text-mid);">@boldspaces.pk</div>
+        </div>
+        <div>
+          <div style="font-size:0.58rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">WhatsApp</div>
+          <div style="font-size:0.78rem;color:var(--text-mid);">+92 300 000 0000</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div style="background:var(--white);padding:50px;box-shadow:0 20px 60px rgba(0,0,0,0.06);">
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <input type="text" placeholder="Your Name" style="padding:14px 18px;border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.72rem;outline:none;transition:border 0.3s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+            <input type="email" placeholder="Email Address" style="padding:14px 18px;border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.72rem;outline:none;transition:border 0.3s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+          </div>
+          <select style="padding:14px 18px;border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.72rem;color:var(--text-light);outline:none;background:white;appearance:none;cursor:pointer;">
+            <option>Select Category — Kids / Adults</option>
+            <option>Kids' Room</option>
+            <option>Adult Bedroom</option>
+            <option>Living Room</option>
+            <option>Dining Room</option>
+            <option>Full Home</option>
+          </select>
+          <textarea rows="5" placeholder="Tell us about your project..." style="padding:14px 18px;border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.72rem;outline:none;resize:none;transition:border 0.3s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          <button class="btn-primary" style="width:100%;text-align:center;padding:18px;" onclick="alert('Thank you! We will be in touch within 24 hours.')">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Bold Spaces</div>
+      <div class="footer-brand-by">By Momina Qadri</div>
+      <p class="footer-desc">Bespoke furniture crafted with intention, skill, and a deep understanding of how people live. Every piece is uniquely yours.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Collections</div>
+      <ul class="footer-links">
+        <li><a href="#">Kids' Rooms</a></li>
+        <li><a href="#">Adult Spaces</a></li>
+        <li><a href="#">Signature Pieces</a></li>
+        <li><a href="#">Dining</a></li>
+        <li><a href="#">Storage</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Studio</div>
+      <ul class="footer-links">
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">The Process</a></li>
+        <li><a href="#">Craftsmanship</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">Pinterest</a></li>
+        <li><a href="#">Book Consultation</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Bold Spaces by <span class="footer-gold">Momina Qadri</span>. All rights reserved.</div>
+    <div class="footer-copy">Crafted with care — Rawalpindi, Pakistan</div>
+  </div>
+</footer>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+    }, 2000);
+  });
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Product filter
+  function filterProducts(cat, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = 'block';
+        card.style.animation = 'fadeInUp 0.5s ease forwards';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
